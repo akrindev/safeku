@@ -22,6 +22,7 @@ Route::prefix('sudo-admin')->group(function() {
 
 });
 
+Route::get('/fetch/category', 'HomeController@fetchCategory');
 Route::post('/shorten', 'HomeController@shorten');
 
 Route::get('/sudo', 'HomeController@index')->name('home');

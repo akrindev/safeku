@@ -32,7 +32,7 @@
               <i class="fe fe-book"></i>
             </span>
           <div>
-            <h4 class="m-0"><a href="javascript:void(0)">12 <small>Posted articles</small></a></h4>
+            <h4 class="m-0"><a href="javascript:void(0)">{{ auth()->user()->post->count() }} <small>Posted articles</small></a></h4>
             <small class="text-muted">The articles</small>
           </div>
           </div>
@@ -63,6 +63,10 @@
               </div>
 
             </form>
+
+            <div class="form-group">
+              <button class="btn btn-outline-primary mt-5"><i class="fe fe-plus"></i> Create new post</button>
+            </div>
           </div>
         </div>
       </div>
@@ -83,6 +87,56 @@
         </div>
       </div>
     </div>
+
+    <!-- post & category-->
+    <div class="row">
+      <!-- posts -->
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Posts</h3>
+          </div>
+          <table class="card-table table table-striped">
+          @foreach ($posts as $post)
+            <tr>
+              <td class="p-2"><div> <a href="/{{ $post->slug }}"> {{ $post->title }}</a> <br> <small class="text-muted">{{ $post->created_at->toDayDateTimeString() }}</small> </div></td>
+            </tr>
+          @endforeach
+          </table>
+        </div>
+          {{ $posts->links() }}
+      </div>
+
+      <!-- categories -->
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Category post</h3>
+          </div>
+          <div class="card-body p-3" style="font-size:13px;font-weight:400">
+            <form action="/store/category" id="category-form" method="post">
+
+              <div class="form-group">
+                <label class="form-label">Category</label>
+                <input type="text" class="form-control" name="category" required>
+              </div>
+
+              <div class="form-group">
+                <button class="btn btn-outline-primary btn-pill" type="submit" id="category-btn"><i class="fe fe-tag"></i> Add category</button>
+              </div>
+
+            </form>
+            <hr class="my-1">
+            <div id="categories-list" class="dimmer active o-auto" style="height:150px">
+              <div class="loader"></div>
+              <div class="dimmer-content"></div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
 
   </div>
 </div>
@@ -113,6 +167,8 @@
 </script>
 <script>
   let shorten = document.getElementById("shorten"),
+      categoryForm = document.getElementById("category-form"),
+      cBtn = document.getElementById("category-btn"),
       btnShorten = document.getElementById("shorten-btn"),
       urlInfo = document.getElementById("url-info");
 
@@ -145,6 +201,43 @@ Link: <b>${response.data.shorten}</b></div>`;
       shorten.reset()
     });
   });
+
+  categoryForm.addEventListener('submit', e => {
+  	e.preventDefault();
+
+    let data = new FormData(e.target);
+    cBtn.classList.add('btn-loading');
+
+
+    axios.post('/store/category', data)
+    .then(response => {
+      if(response.data.success){
+        swal("nee category has been added", {
+        	icon: 'success'
+        }).then(() => loadCategory());
+      }
+
+    }).catch(err => alert(err))
+      .finally(() => {
+      	cBtn.classList.remove('btn-loading')
+      	categoryForm.reset()
+      });
+
+  });
+
+function loadCategory() {
+  axios.get('/fetch/category')
+  .then(res => {
+    const cList = document.getElementById("categories-list");
+    cList.innerHTML = ''
+    cList.classList.remove('active')
+
+  	res.data.map(item => {
+    	cList.innerHTML += `- ${item.name} <br>`;
+    });
+  }).catch(err => alert(err));
+}
+  loadCategory()
 </script>
 
 @endsection

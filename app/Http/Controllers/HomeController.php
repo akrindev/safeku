@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Validator;
 use App\Safelink;
+use App\Category;
 
 class HomeController extends Controller
 {
@@ -17,8 +18,9 @@ class HomeController extends Controller
   public function index()
   {
     $links = auth()->user()->safelink()->latest()->take(5)->get();
+    $posts = auth()->user()->post()->latest()->paginate(6);
 
-    return view('sudo.home', compact('links'));
+    return view('sudo.home', compact('links', 'posts'));
   }
 
   public function shorten()
@@ -52,4 +54,10 @@ class HomeController extends Controller
     return response()->json(['success'	=> true, 'shorten' => url('/?v=' . $short->shorten)]);
   }
 
+  public function fetchCategory()
+  {
+    $categories = Category::get();
+
+    return response()->json($categories);
+  }
 }
