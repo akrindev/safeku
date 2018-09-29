@@ -22,10 +22,14 @@ Route::prefix('sudo-admin')->group(function() {
 
 });
 
-Route::get('/store/post', 'PostController@store');
+Route::match(['get', 'post'],'/store/post', 'PostController@store');
+Route::post('/store/category', 'PostController@storeCategory');
 
 Route::get('/fetch/category', 'HomeController@fetchCategory');
-Route::post('/store/category', 'HomeController@storeCategory');
 Route::post('/shorten', 'HomeController@shorten');
 
 Route::get('/sudo', 'HomeController@index')->name('home');
+
+
+// this is where user see
+Route::get('/read/{slug}', 'PostController@show');

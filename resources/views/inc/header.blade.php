@@ -1,15 +1,15 @@
+@php
+$setting = App\Setting::first();
+$categories = App\Category::get();
+@endphp
         <div class="header py-4">
           <div class="container">
             <div class="d-flex">
               <a class="header-brand" href="/">
-                <img src="/safeku.png" class="header-brand-img lazyload" alt="logo">
+                <img src="{{ $setting->logo }}" class="header-brand-img lazyload" alt="logo"> {{ $setting->title }}
               </a>
               <div class="d-flex order-lg-2 ml-auto">
-@guest
- 				<div class="nav-item d-md-flex">
-                   <a href="/fb-login" class="btn btn-sm btn-outline-primary"><i class="fe fe-facebook"></i> Login</a>
-                 </div>
-@else
+@auth
                <div class="nav-item d-md-flex">
                 <div class="dropdown">
                   <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">
@@ -61,6 +61,11 @@
                   <li class="nav-item">
                     <a href="/" class="nav-link"><i class="fe fe-home"></i> Home</a>
                   </li>
+                  @foreach ($categories as $cat)
+                    <li class="nav-item">
+                      <a href="/category/{{ $cat->name }}" class="nav-link">{{ $cat->name }}</a>
+                  </li>
+                  @endforeach
 
                 </ul>
               </div>

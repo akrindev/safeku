@@ -10,6 +10,8 @@ class Category extends Model
   	'name'
   ];
 
+  public $timestamps = false;
+
   public function post()
   {
     return $this->hasMany(Post::class);

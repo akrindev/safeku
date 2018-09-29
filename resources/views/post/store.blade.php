@@ -31,7 +31,7 @@
 
       <div class="form-group">
         <label>Content</label>
-        <textarea id="sectionBody" name="deskripsi" class="form-control" data-provide="markdown" rows=10 required></textarea>
+        <textarea id="sectionBody" name="body" class="form-control" data-provide="markdown" rows=10 required></textarea>
         <div class="help-block">
           <small class="text-muted">Markdown supported!</small>
         </div>
@@ -50,7 +50,7 @@
           @endforeach
         </div>
         </div>
-      <button type="submit" class="btn btn-primary">Publish</button>
+      <button type="submit" class="btn btn-primary" id="btn-publish">Publish</button>
 
      </form>
 
@@ -74,7 +74,51 @@
 <script src="/assets/js/to-markdown.js">
 </script>
 
+<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/rikmms/progress-bar-4-axios/0a3acf92/dist/nprogress.css" />
+<style type="text/css">
+  #nprogress .bar {
+    background: red !important;
+  }
+  #nprogress .peg {
+    box-shadow: 0 0 10px red, 0 0 5px red !important;
+  }
+  #nprogress .spinner-icon {
+    border-top-color: red !important;
+    border-left-color: red !important;
+  }
+</style>
 @endsection
 
 @section('footer')
+<script src="//unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="//unpkg.com/axios/dist/axios.min.js"></script><script src="https://cdn.rawgit.com/rikmms/progress-bar-4-axios/0a3acf92/dist/index.js"></script>
+
+<script type="text/javascript">
+  loadProgressBar();
+</script>
+
+<script>
+let formPost = document.getElementById("form-post"),
+    btnPublish = document.getElementById("btn-publish");
+
+  formPost.addEventListener('submit', e => {
+  	e.preventDefault();
+
+    let data = new FormData(e.target);
+
+    btnPublish.classList.add("btn-loading")
+
+    axios.post('/store/post', data)
+    .then(res => {
+      if(res.data.success) {
+        swal("post berhasil di terbitkan", {
+        	icon: 'success'
+        }).then(() => window.location.href = '/read/'+res.data.slug);
+      }
+
+    }).catch(err => alert(err))
+    .finally(() => btnPublish.classList.remove("btn-loading"));
+  });
+</script>
+
 @endsection
