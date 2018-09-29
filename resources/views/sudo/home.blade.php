@@ -65,7 +65,7 @@
             </form>
 
             <div class="form-group">
-              <button class="btn btn-outline-primary mt-5"><i class="fe fe-plus"></i> Create new post</button>
+              <a href="/store/post" class="btn btn-outline-primary mt-5"><i class="fe fe-plus"></i> Create new post</a>
             </div>
           </div>
         </div>
@@ -77,6 +77,9 @@
           <div class="card-header">
             <h3 class="card-title">Latest shorten</h3>
           </div>
+          @if ($links->count() == 0)
+            <b class="p-5">belum ada short link</b>
+          @endif
          <table class="card-table table table-striped" style="font-size:13px;font-weight:400">
            @foreach ($links as $link)
            <tr>
@@ -96,6 +99,9 @@
           <div class="card-header">
             <h3 class="card-title">Posts</h3>
           </div>
+          @if ($posts->count() == 0)
+            <b class="p-5">belum ada post</b>
+          @endif
           <table class="card-table table table-striped">
           @foreach ($posts as $post)
             <tr>

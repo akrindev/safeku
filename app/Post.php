@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
   protected $fillable = [
-  	'title', 'body', 'categori_id'
+  	'title', 'body', 'category_id'
   ];
 
   public function user()
@@ -17,6 +17,6 @@ class Post extends Model
 
   public function category()
   {
-    return $this->hasOne(Category::class);
+    return $this->belongsTo(Category::class);
   }
 }

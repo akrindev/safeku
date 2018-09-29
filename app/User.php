@@ -28,6 +28,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+  public function isAdmin()
+  {
+    return $this->role == 'admin' ? true : false;
+  }
+
   public function safelink()
   {
     return $this->hasMany(Safelink::class);

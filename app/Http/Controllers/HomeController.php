@@ -54,6 +54,15 @@ class HomeController extends Controller
     return response()->json(['success'	=> true, 'shorten' => url('/?v=' . $short->shorten)]);
   }
 
+  public function storeCategory()
+  {
+    Category::create([
+    	'name'	=> request('name'),
+    ]);
+
+    return response()->json(['success'=>true]);
+  }
+
   public function fetchCategory()
   {
     $categories = Category::get();
