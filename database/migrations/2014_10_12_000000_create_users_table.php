@@ -17,8 +17,14 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+          	$table->bigInteger('provider_id');
+          	$table->string('username');
+          	$table->enum('gender',['cowok','cewek','hode'])->default('hode');
+          	$table->text('tentang');
+          	$table->string('alamat');
+          	$table->text('link');
+          	$table->boolean('banned')->default(0);
+          	$table->enum('role',['admin','staff','member'])->default('member');
             $table->rememberToken();
             $table->timestamps();
         });

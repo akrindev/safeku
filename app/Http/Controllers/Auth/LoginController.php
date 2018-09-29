@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
+use Socialite;
+use Auth;
+use App\User;
+
 class LoginController extends Controller
 {
     /*
@@ -25,7 +29,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/sudo';
 
     /**
      * Create a new controller instance.
@@ -36,4 +40,75 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+  	public function showLoginForm()
+    {
+      return redirect('/fb-login');
+    }
+
+  	public function redirect()
+    {
+      return Socialite::driver('facebook')->redirect();
+    }
+
+  	public function callback()
+    {
+      $facebook = Socialite::driver('facebook')->user();
+
+      $user = $this->findOrCreate($facebook);
+
+      if($user->banned == 1)
+      {
+        return redirect('/')->with('gagal', 'Akun di banned!! hubungi admin untuk menindak lanjuti');
+      }
+
+      Auth::login($user, true);
+
+      return redirect($this->redirectTo);
+
+    }
+
+  	public function findOrCreate($facebook)
+    {
+      $user = User::where('provider_id',$facebook->getId())->first();
+
+      $raw = $facebook->getRaw();
+
+      $uname = $facebook->getName();
+
+      $uname = explode(' ',$uname);
+      $name = str_slug($uname[0]).rand(000,999);
+
+      $gender = $raw['gender'] ?? 'hode';
+
+      switch($gender)
+      {
+        case 'male':
+          $gender = 'cowok';
+          break;
+        case 'female':
+          $gender = 'cewek';
+          break;
+        default:
+          $gender = 'hode';
+      }
+
+      if( ! $user)
+      {
+        $user = new User;
+        $user->provider_id = $facebook->getId();
+        $user->name = $facebook->getName();
+        $user->email = $facebook->getEmail();
+        $user->tentang = 'Iam a human!';
+        $user->username = $name;
+        $user->gender = $gender;
+        $user->alamat = 'Bumi, Indonesia';
+        $user->link = $raw['link'] ?? '-';
+        $user->save();
+      }
+
+      return $user;
+    }
+
+
 }

@@ -14,7 +14,14 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/fb-login', 'Auth\LoginController@redirect');
+Route::get('/facebook/callback', 'Auth\LoginController@callback');
+Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
-Auth::routes();
+Route::prefix('sudo-admin')->group(function() {
 
-Route::get('/home', 'HomeController@index')->name('home');
+});
+
+Route::post('/shorten', 'HomeController@shorten');
+
+Route::get('/sudo', 'HomeController@index')->name('home');
