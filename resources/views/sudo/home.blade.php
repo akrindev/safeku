@@ -10,7 +10,7 @@
     <!-- //analytics -->
     <div class="row">
       <!-- // total safelink -->
-      <div class="col-md-6">
+      <div class="col-md-4">
         <div class="card p-3">
           <div class="d-flex align-items-center">
             <span class="stamp stamp-md bg-green mr-3">
@@ -24,7 +24,7 @@
         </div>
       </div>
       <!-- // total post -->
-      <div class="col-md-6">
+      <div class="col-md-4">
         <div class="card p-3">
           <div class="d-flex align-items-center">
             <span class="stamp stamp-md bg-red mr-3">
@@ -42,7 +42,7 @@
     <!-- info -->
     <div class="row">
       <!-- safe the link -->
-      <div class="col-md-8">
+      <div class="col-md-4">
         <div class="card">
           <div class="card-header">
             <h3 class="card-title">Safe the link</h3>
@@ -63,6 +63,22 @@
 
             </form>
           </div>
+        </div>
+      </div>
+
+      <!-- the links -->
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Latest shorten</h3>
+          </div>
+         <table class="card-table table table-striped" style="font-size:13px;font-weight:400">
+           @foreach ($links as $link)
+           <tr>
+             <td class="p-2"><div> <a href="/?v={{ $link->shorten }}">{{ url('?v='.$link->shorten) }}</a> <br> <small class="text-muted">{{ $link->url }} <span class="text-right ml-2"> <i class="fe fe-clock"></i> {{ $link->created_at->toDayDateTimeString() }}</span> </small> </div></td>
+           </tr>
+           @endforeach
+         </table>
         </div>
       </div>
     </div>
@@ -123,7 +139,10 @@ Link: <b>${response.data.shorten}</b></div>`;
       }
 
     }).catch(err => alert(err))
-    .finally(() => btnShorten.classList.remove('btn-loading'));
+    .finally(() => {
+      btnShorten.classList.remove('btn-loading')
+      shorten.reset()
+    });
   });
 </script>
 

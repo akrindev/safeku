@@ -14,7 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/fb-login', 'Auth\LoginController@redirect');
+Route::get('/fb-login', 'Auth\LoginController@redirect')->name('login');
 Route::get('/facebook/callback', 'Auth\LoginController@callback');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 

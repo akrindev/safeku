@@ -16,7 +16,9 @@ class HomeController extends Controller
 
   public function index()
   {
-    return view('sudo.home');
+    $links = auth()->user()->safelink()->latest()->take(5)->get();
+
+    return view('sudo.home', compact('links'));
   }
 
   public function shorten()
@@ -35,26 +37,19 @@ class HomeController extends Controller
       return response()->json($response);
     }
 
-    $having = true;
+    $shorten = str_random(10);
+    $short = Safelink::whereShorten($shorten)->first();
 
-    while($having)
+    if(! $short)
     {
-      $shorten = str_random(10);
-      $short = Safelink::whereShorten($shorten)->first();
-
-      if(! $short)
-      {
-        auth()->user()->safelink()->create([
-        	'url'		=> request("url"),
-          	'shorten'	=> $shorten
-        ]);
-
-        $having = false;
-        break;
-      }
+      $short = auth()->user()->safelink()->create([
+      	'url'		=> request("url"),
+       	'shorten'	=> $shorten
+      ]);
     }
 
-    return response()->json(['success'	=> true, 'shorten' => url('/?v=' . $shorten)]);
+
+    return response()->json(['success'	=> true, 'shorten' => url('/?v=' . $short->shorten)]);
   }
 
 }

@@ -32,4 +32,9 @@ class User extends Authenticatable
   {
     return $this->hasMany(Safelink::class);
   }
+
+  public function post()
+  {
+    return $this->hasMany(Post::class);
+  }
 }
