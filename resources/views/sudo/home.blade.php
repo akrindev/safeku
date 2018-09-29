@@ -17,8 +17,9 @@
               <i class="fe fe-shield"></i>
             </span>
           <div>
-            <h4 class="m-0"><a href="javascript:void(0)">132 <small>Safe links</small></a></h4>
-            <small class="text-muted">links protected</small>
+            <h4 class="m-0"><a href="javascript:void(0)">{{ auth()->user()->safelink->count() }}
+            <small>Safe links</small></a></h4>
+            <small class="text-muted">The protected links</small>
           </div>
           </div>
         </div>
