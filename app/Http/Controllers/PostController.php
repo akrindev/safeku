@@ -10,7 +10,14 @@ class PostController extends Controller
 {
   public function __construct()
   {
-    $this->middleware('admin')->except(['show']);
+    $this->middleware('admin')->except(['show', 'index']);
+  }
+
+  public function index()
+  {
+    $posts = Post::paginate();
+
+    return view('post.index', compact('posts'));
   }
 
   public function show($slug)
@@ -19,6 +26,16 @@ class PostController extends Controller
 
 
     return view('post.read', compact('data'));
+  }
+
+  public function category($name)
+  {
+    $category = Category::whereName($name)->first();
+    if(! $category) abort(404);
+
+    $posts = Post::whereCategoryId($category->id)->paginate();
+
+    return view('post.category', compact('category', 'posts'));
   }
 
   public function store()

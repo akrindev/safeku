@@ -15,7 +15,7 @@
         <div class="card">
           <div class="card-body p-3">
          <small class="text-muted">Posted by: {{ $data->user->name }} <br>
-            <i class="fe fe-clock"></i> {{ $data->created_at->toDayDateTimeString() }} <i class="fe fe-tag ml-2 mr-1"></i> {{ $data->category->name }} </small>
+            <i class="fe fe-clock"></i> {{ $data->created_at->toDayDateTimeString() }} <i class="fe fe-tag ml-2 mr-1"></i> <a class="text-muted" href="/category/{{ $data->category->name }}">{{ $data->category->name }}</a> </small>
            <hr class="my-2">
           {!! (new \Parsedown)->text(nl2br(e($data->body))) !!}
 

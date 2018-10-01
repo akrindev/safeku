@@ -3,7 +3,7 @@ $rand = App\Post::inRandomOrder()->take(5)->get();
 @endphp
 
 
-<div class="mt-5">
+<div class="">
 <div class="card">
   <div class="card-header">
     <h3 class="card-title">Random post</h3>
