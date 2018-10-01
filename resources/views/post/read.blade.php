@@ -53,10 +53,11 @@ let generate = document.getElementById("to-generate"),
   	generate.classList.add('btn-loading');
 
     setTimeout(() => {
-      	window.location.href = "#generate";
+        isDone.scrollIntoView()
+
   		generate.classList.remove('btn-loading');
 
-    	isDone.innerHTML = `<a href="${isSafeTrue.value}" class="btn btn-outline-danger generate" target="_blank">Menuju link</a>`;
+    	isDone.innerHTML = `<a href="${isSafeTrue.value}" class="btn btn-outline-danger generate" target="_blank">Menuju link <i class="fe fe-arrow-right"></i></a>`;
     }, 3000);
   });
 </script>

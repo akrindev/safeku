@@ -83,7 +83,7 @@
          <table class="card-table table table-striped" style="font-size:13px;font-weight:400">
            @foreach ($links as $link)
            <tr>
-             <td class="p-2"><div> <a href="/?v={{ $link->shorten }}">{{ url('?v='.$link->shorten) }}</a> <br> <small class="text-muted">{{ $link->url }} <span class="text-right ml-2"> <i class="fe fe-clock"></i> {{ $link->created_at->toDayDateTimeString() }}</span> </small> </div></td>
+             <td class="p-2"><div> <a href="/?v={{ $link->shorten }}">{{ url('?v='.$link->shorten) }}</a> <br> <small class="text-muted">{{ $link->url }} <br><span class="text-right"> <i class="fe fe-clock"></i> {{ $link->created_at->toDayDateTimeString() }}</span> </small> </div></td>
            </tr>
            @endforeach
          </table>
@@ -105,7 +105,7 @@
           <table class="card-table table table-striped">
           @foreach ($posts as $post)
             <tr>
-              <td class="p-2"><div> <a href="/{{ $post->slug }}"> {{ $post->title }}</a> <br> <small class="text-muted">{{ $post->created_at->toDayDateTimeString() }}</small> </div></td>
+              <td class="p-2"><div> <a href="/read/{{ $post->slug }}"> {{ $post->title }}</a> <br> <small class="text-muted"> <i class="fe fe-clock"></i> {{ $post->created_at->toDayDateTimeString() }} <i class="fe fe-tag ml-2"></i> {{ $post->category->name }} </small> </div></td>
             </tr>
           @endforeach
           </table>

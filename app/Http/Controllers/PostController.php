@@ -18,6 +18,10 @@ class PostController extends Controller
   {
     if(request()->has('v'))
     {
+      $have = Safelink::whereShorten(request('v'))->first();
+
+      if(! $have) abort(404);
+
       $to = Post::inRandomOrder()->take(1)->first();
 
       return view('post.humanity', compact('to'));
@@ -35,6 +39,7 @@ class PostController extends Controller
     if(request()->isMethod('post'))
     {
       $safe = Safelink::whereShorten(request('val'))->first();
+      if( ! $safe) abort(404);
 
       $data->safe = $safe;
 
