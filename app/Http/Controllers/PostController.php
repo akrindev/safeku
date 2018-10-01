@@ -11,7 +11,7 @@ class PostController extends Controller
 {
   public function __construct()
   {
-    $this->middleware('admin')->except(['show', 'index']);
+    $this->middleware('admin')->except(['show', 'index', 'category']);
   }
 
   public function index()
