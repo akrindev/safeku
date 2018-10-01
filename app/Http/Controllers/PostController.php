@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Post;
 use App\Category;
+use App\Safelink;
 
 class PostController extends Controller
 {
@@ -15,6 +16,13 @@ class PostController extends Controller
 
   public function index()
   {
+    if(request()->has('v'))
+    {
+      $to = Post::inRandomOrder()->take(1)->first();
+
+      return view('post.humanity', compact('to'));
+    }
+
     $posts = Post::paginate();
 
     return view('post.index', compact('posts'));
@@ -23,6 +31,15 @@ class PostController extends Controller
   public function show($slug)
   {
     $data = Post::whereSlug($slug)->first();
+
+    if(request()->isMethod('post'))
+    {
+      $safe = Safelink::whereShorten(request('val'))->first();
+
+      $data->safe = $safe;
+
+      return view('post.read', compact('data'));
+    }
 
 
     return view('post.read', compact('data'));

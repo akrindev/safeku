@@ -29,6 +29,6 @@ Route::get('/sudo', 'HomeController@index')->name('home');
 
 
 // this is where user see
-Route::get('/', 'PostController@index');
-Route::get('/read/{slug}', 'PostController@show');
+Route::match(['get', 'post'], '/', 'PostController@index');
+Route::match(['get', 'post'], '/read/{slug}', 'PostController@show');
 Route::get('/category/{name}', 'PostController@category');

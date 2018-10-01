@@ -19,18 +19,8 @@ $categories = App\Category::get();
                     </span>
                   </a>
                   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                    <a class="dropdown-item" href="/profile">
+                    <a class="dropdown-item" href="/sudo">
                       <i class="dropdown-icon fe fe-user"></i> Profile
-                    </a>
-                    <a class="dropdown-item" href="/setting/profile">
-                      <i class="dropdown-icon fe fe-settings"></i> Settings
-                    </a>
-                    <a class="dropdown-item" href="#" onClick="alert('under development')">
-                      <i class="dropdown-icon fe fe-send"></i> Message
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#" onClick="alert('under development')">
-                      <i class="dropdown-icon fe fe-help-circle"></i> Need help?
                     </a>
                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
